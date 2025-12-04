@@ -5,24 +5,15 @@ from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from openai import OpenAI, APIError
 
-# -----------------------------------
-# Flask app setup
-# -----------------------------------
 app = Flask(__name__)
 CORS(app)
 
-# -----------------------------------
-# OpenAI setup
-# -----------------------------------
 API_KEY = os.environ.get("OPENAI_API_KEY")  # set this in your environment
 MODEL_NAME = "gpt-4o-mini"
 
 client = OpenAI(api_key=API_KEY) if API_KEY else None
 
 
-# -----------------------------------
-# Helper: strip markdown from model output
-# -----------------------------------
 def strip_markdown(text: str) -> str:
     if not text:
         return text
@@ -87,10 +78,9 @@ def get_real_weather(city: str) -> dict:
     weather_params = {
         "latitude": latitude,
         "longitude": longitude,
-        "current_weather": "true",
-        # You can add more fields (humidity, etc.) via hourly params if needed
+        "current_weather": "true",  
         "timezone": "auto",
-        "temperature_unit": "fahrenheit",   # <--- ADD THIS
+        "temperature_unit": "fahrenheit",  
         "windspeed_unit": "mph", 
     }
     weather_resp = requests.get(weather_url, params=weather_params, timeout=5)
@@ -233,5 +223,4 @@ def get_recommendation():
 # Entry point
 # -----------------------------------
 if __name__ == "__main__":
-    # Make sure OPENAI_API_KEY is set in your environment before running
     app.run(debug=True, port=5000)
