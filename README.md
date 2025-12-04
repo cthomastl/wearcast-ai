@@ -39,18 +39,6 @@ Frontend hosted on Amazon S3, accelerated with CloudFront CDN
 
 Secure architecture using VPC subnets, security groups, IAM roles
 
-🚀 Architecture Diagram
-User → CloudFront → S3 (Frontend Hosting)
-               ↓
-        Application Load Balancer
-               ↓
-         ECS Fargate (Flask API)
-               ↓
-     ┌────────────────────────┐
-     │  OpenAI (Outfit Gen)  │
-     │  Open-Meteo (Weather) │
-     └────────────────────────┘
-
 🔧 Tech Stack
 Frontend
 
