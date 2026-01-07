@@ -1,85 +1,68 @@
-WearCast AI is a full-stack, cloud-native application that generates real-time outfit recommendations based on live weather conditions.
+WearCast AI: Cloud-Native Generative Styling Engine
+Project Overview
+WearCast AI is a full-stack application that leverages OpenAI's GPT models and Open-Meteo's real-time weather data to solve a daily human problem: deciding what to wear. Built with a "Security-First" and "Serverless-First" mindset, the application provides instantaneous, natural-language recommendations through a globally distributed frontend and a containerized backend.
 
-Users enter a city, the app fetches actual meteorological data from Open-Meteo, enriches it using OpenAI, and returns natural-language styling advice — fast, simple, and accurate.
+The Architecture: How It Was Built
+1. The Intelligence Layer (Backend)
+The backend is a Python Flask API designed for high-concurrency and intelligent data enrichment.
 
-The frontend is deployed globally on Amazon S3 + CloudFront, while the backend runs in a secure, scalable AWS ECS Fargate environment.
+Data Orchestration: The API captures user input, queries the Open-Meteo API for precise local weather variables (temperature, precipitation, wind speed), and feeds this telemetry into OpenAI's GPT SDK.
 
-✨ Features
-Frontend
+Prompt Engineering: Logic was implemented to ensure the AI returns concise, style-conscious, and weather-appropriate advice.
 
-Modern UI built with HTML + TailwindCSS + JavaScript
+Production Grade: The application utilizes Gunicorn as a WSGI server to manage multiple worker processes, ensuring the API remains responsive under load.
 
-Responsive, mobile-first design
+2. The Containerization & DevOps Pipeline
+To ensure environment parity and rapid scaling, the backend was fully dockerized.
 
-Calls backend API for recommendations
+Dockerization: The Python environment was packaged into a lightweight Docker image.
 
-Backend
+Image Registry: Images are versioned and hosted securely in Amazon ECR (Elastic Container Registry).
 
-Python Flask API
+Orchestration: Deployed using AWS ECS Fargate, removing the overhead of managing EC2 instances. This serverless container approach allows the application to scale automatically based on traffic.
 
-Gunicorn production server
+Traffic Management: An Application Load Balancer (ALB) serves as the entry point for the backend, performing health checks and distributing traffic across the container fleet.
 
-Integrates:
+3. Global Edge Delivery (Frontend)
+The user interface was built to be lightweight and extremely fast.
 
-OpenAI GPT for generating outfit suggestions
+Static Hosting: The HTML/TailwindCSS frontend is hosted on Amazon S3.
 
-Open-Meteo API for live weather data
+Content Delivery (CDN): Amazon CloudFront is utilized to cache and serve the frontend from edge locations worldwide, drastically reducing latency and providing SSL/TLS encryption.
 
-Cloud & DevOps
+Technical Evidence
+Infrastructure Performance
+The images below demonstrate the successful deployment and connectivity of the serverless backend. <img width="956" height="410" alt="WearCast-After" src="https://github.com/user-attachments/assets/8e4e6613-5bd1-4a45-a4fd-769179daf24d" /> Figure 1: Verified backend API response and service health.
 
-Dockerized backend application
+<img width="955" height="409" alt="WearCast-Before" src="https://github.com/user-attachments/assets/0091309a-22fd-4bce-abb0-d0fa018d309d" /> Figure 2: Initial system logs showing successful container initialization and ECR image pull.
 
-Private image hosting with Amazon ECR
+Technical Stack
+Frontend & UI
+HTML / TailwindCSS: Responsive, utility-first styling.
 
-Serverless containers on AWS ECS Fargate
+JavaScript: Asynchronous API handling for real-time updates.
 
-Application Load Balancer (ALB) for routing + health checks
+Backend & AI
+Python 3 / Flask: Core logic and RESTful API development.
 
-Frontend hosted on Amazon S3, accelerated with CloudFront CDN
+OpenAI SDK: Generative AI enrichment for natural language output.
 
-Secure architecture using VPC subnets, security groups, IAM roles
+Requests: High-performance HTTP client for weather data retrieval.
 
-🔧 Tech Stack
-Frontend
+Cloud Infrastructure (AWS)
+Compute: ECS Fargate (Serverless Containers).
 
-HTML
+Networking: VPC, Public/Private Subnets, Application Load Balancer.
 
-TailwindCSS
+Storage & CDN: Amazon S3 & CloudFront.
 
-JavaScript
+Security: IAM Roles (Least Privilege), Security Groups.
 
-Backend
+Skills Demonstrated
+Generative AI Integration: Implementing LLMs to transform structured data into unstructured natural language.
 
-Python 3
+Cloud Architecture: Designing multi-tier, highly available systems on AWS.
 
-Flask
+Container Orchestration: Managing the lifecycle of microservices via Docker and ECS.
 
-Gunicorn
-
-Requests
-
-OpenAI Python SDK
-
-Cloud & Deployment
-
-Docker
-
-Amazon ECR
-
-Amazon ECS Fargate
-
-Application Load Balancer
-
-Amazon S3
-
-Amazon CloudFront
-
-IAM / Security Groups / VPC
-
-
-![Untitled](https://github.com/user-attachments/assets/b32e0847-0516-4992-904b-cbd27d21e424)
-
-<img width="956" height="410" alt="WearCast-After" src="https://github.com/user-attachments/assets/8e4e6613-5bd1-4a45-a4fd-769179daf24d" />
-
-<img width="955" height="409" alt="WearCast-Before" src="https://github.com/user-attachments/assets/0091309a-22fd-4bce-abb0-d0fa018d309d" />
-
+CI/CD Fundamentals: Streamlining code to cloud deployment using ECR and Fargate task definitions.
